@@ -1,6 +1,5 @@
 package sk.michacu.zmenaren;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import sk.michacu.zmenaren.databaza.PgOperations;
 import sk.michacu.zmenaren.model.MenaObject;
 
@@ -12,8 +11,11 @@ import java.util.regex.Pattern;
 public class Utilities {
     private final Pattern pattern = Pattern.compile("-?\\d+(\\.\\d+)?");
 
-    @Autowired
-    private PgOperations pgOperations;
+    private final PgOperations pgOperations;
+
+    public Utilities() {
+        this.pgOperations = new PgOperations();
+    }
 
     public MenaObject getMena(Long id) {
         return pgOperations.findById(id);

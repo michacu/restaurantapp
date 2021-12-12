@@ -12,7 +12,7 @@ public class MenaObject {
     @Id
     @Column(name = "id", nullable = false)
     private Long id;
-    @Column(name = "currName")
+    @Column(name = "currname")
     private String currName;
     @Column(name = "icon")
     private String icon;

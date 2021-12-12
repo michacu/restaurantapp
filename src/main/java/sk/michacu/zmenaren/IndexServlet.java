@@ -17,7 +17,7 @@ public class IndexServlet extends HttpServlet {
 
     public void init(ServletConfig config) throws ServletException {
         ServletContext context = config.getServletContext();
-        //utilities.fillInitList();
+        utilities.fillInitList();
         jsp = context.getRequestDispatcher("/index.jsp");
     }
 

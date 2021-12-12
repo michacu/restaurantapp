@@ -15,7 +15,7 @@ public class PgOperations {
     private final SessionFactory sessionFactory;
 
     public PgOperations() {
-        Configuration config = new Configuration().configure();
+        Configuration config = new Configuration().addAnnotatedClass(MenaObject.class).configure();
         ServiceRegistry servReg = new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build();
         this.sessionFactory = config.buildSessionFactory(servReg);
     }
