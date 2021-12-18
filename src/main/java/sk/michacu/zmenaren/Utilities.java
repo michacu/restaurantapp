@@ -3,9 +3,11 @@ package sk.michacu.zmenaren;
 import sk.michacu.zmenaren.databaza.PgOperations;
 import sk.michacu.zmenaren.model.MenaObject;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import javax.money.Monetary;
+import javax.money.MonetaryAmount;
+import javax.money.convert.CurrencyConversion;
+import javax.money.convert.MonetaryConversions;
+import java.util.*;
 import java.util.regex.Pattern;
 
 public class Utilities {
@@ -38,11 +40,47 @@ public class Utilities {
         pgOperations.fillInitData(menaObjectList);
     }
 
+    public void addMenaObject(String currnameValueFrom, String iconValueForm, String descriptionValueForm, boolean activeValueForm) {
+        Date date = new Date();
+        pgOperations.addMena(new MenaObject(1L, currnameValueFrom, iconValueForm, descriptionValueForm, activeValueForm, date, date));
+    }
+
+    public void removeAllData() {
+        pgOperations.deleteAll();
+    }
+
 
     public boolean isNotNumeric(String strNum) {
         if (strNum == null) {
             return true;
         }
         return !pattern.matcher(strNum).matches();
+    }
+
+    public MonetaryAmount getMonetaryAmount(String fromCurrency, String currencySelectorTo, String currencySelectorFrom) {
+        MonetaryAmount resultNumber = Monetary.getDefaultAmountFactory().setCurrency(currencySelectorFrom)
+                .setNumber(Long.parseLong(fromCurrency)).create();
+        CurrencyConversion conversion = MonetaryConversions.getConversion(currencySelectorTo);
+        return resultNumber.with(conversion);
+    }
+
+    public List<Currency> getAllCurrencies() {
+        List<Currency> toret = new ArrayList<>();
+        Locale[] locs = Locale.getAvailableLocales();
+
+        for(Locale loc : locs) {
+            try {
+                Currency currency = Currency.getInstance( loc );
+
+                if ( currency != null ) {
+                    toret.add( currency );
+                }
+            } catch(Exception exc)
+            {
+                // Locale not found
+            }
+        }
+
+        return toret;
     }
 }

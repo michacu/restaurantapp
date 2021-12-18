@@ -18,6 +18,7 @@
                 <a class="nav-link active" href="${pageContext.request.contextPath}/">Home</a>
                 <a class="nav-link" href="${pageContext.request.contextPath}/zmenaren">Zmenaren</a>
                 <a class="nav-link" href="${pageContext.request.contextPath}/zoznam">Zoznam</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/pridaniemeny">Pridanie Meny</a>
             </div>
         </div>
     </div>

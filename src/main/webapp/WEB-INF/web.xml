@@ -20,6 +20,10 @@
         <servlet-class>sk.michacu.zmenaren.ZoznamServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>pridanieMenyServlet</servlet-name>
+        <servlet-class>sk.michacu.zmenaren.PridanieMenyServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>zmenarenServlet</servlet-name>
         <servlet-class>sk.michacu.zmenaren.ZmenarenServlet</servlet-class>
     </servlet>
@@ -34,5 +38,13 @@
     <servlet-mapping>
         <servlet-name>zmenarenServlet</servlet-name>
         <url-pattern>/zmenaren/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pridanieMenyServlet</servlet-name>
+        <url-pattern>/pridaniemeny</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pridanieMenyServlet</servlet-name>
+        <url-pattern>/pridaniemeny/*</url-pattern>
     </servlet-mapping>
 </web-app>

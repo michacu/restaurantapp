@@ -1,5 +1,5 @@
-<%@ page import="sk.michacu.zmenaren.model.MenaObject" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.Currency" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -33,46 +33,43 @@
         <div class="col-sm-2 sidenav">
         </div>
         <div class="col-sm-8 text-left">
-            <h2>Zmenaren</h2>
+            <h2>Pridanie Meny</h2>
             <form class="row g-3" method="post">
                 <div class="input-group col-md-6">
-                    <select id="currencySelectorFrom" name="currencySelectorFrom" class="form-select" aria-label="Currency From">
-                        <option value="" selected>Choose Currency From</option>
+                    <select id="menaSelectorForm" name="menaSelectorForm" class="form-select" aria-label="Mena Pridanie From">
+                        <option value="" selected>Pridanie Meny From</option>
                         <%
                             ServletContext sc = request.getServletContext();
-                            ArrayList<MenaObject> std = (ArrayList<MenaObject>) sc.getAttribute("currencyList");
-                            for (MenaObject s : std) {
+                            ArrayList<Currency> std = (ArrayList<Currency>) sc.getAttribute("zoznamMienList");
+                            for (Currency s : std) {
                         %>
-                        <option value="<%=s.getCurrName()%>"><%=s.getCurrName()%> <%=s.getIcon()%></option>
+                        <option value="<%=s.getCurrencyCode()%>"><%=s.getCurrencyCode()%></option>
                         <%}%>
                     </select>
                 </div>
-                <div class="input-group col-md-6">
-                    <input id="currencyValueFrom" type="number" name="currencyValueFrom" class="form-control" aria-label="Amount" value="${initValueFrom}">
+                <div class="form-group">
+                    <input id="iconValueForm" type="text" name="iconValueForm" class="form-control" aria-label="IconFormValue">
+                </div>
+                <div class="form-group">
+                    <input id="descriptionValueForm" type="text" name="descriptionValueForm" class="form-control" aria-label="descriptionValueForm">
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" id="activeValueForm" type="checkbox" name="activeValueForm">
+                    <label class="form-check-label" for="activeValueForm">
+                        Is Currency Active ?
+                    </label>
                 </div>
 
-                <div class="input-group col-md-6">
-                    <select id="currencySelectorTo" class="form-select" name="currencySelectorTo" aria-label="Default select example">
-                        <option value="" selected>Choose Currency To</option>
-                        <%
-                            for (MenaObject s : std) {
-                        %>
-                        <option value="<%=s.getCurrName()%>"><%=s.getCurrName()%> <%=s.getIcon()%></option>
-                        <%}%>
-                    </select>
-                </div>
-                <div class="col-12">
-                    <button class="btn btn-primary" type="submit">Exchange</button>
-                </div>
+                <button class="btn btn-primary" type="submit">Add Mena</button>
             </form>
             <c:if test="${error != null}">
                 <div class="col-12 alert alert-danger" role="alert" style="margin-top: 10px">
                         ${error}
                 </div>
             </c:if>
-            <c:if test="${currencyResponse != null}">
+            <c:if test="${pridanieMenaResponse != null}">
                 <div class="alert alert-success" role="alert" style="margin-top: 10px">
-                    ${currencyResponse}
+                        ${pridanieMenaResponse}
                 </div>
             </c:if>
         </div>

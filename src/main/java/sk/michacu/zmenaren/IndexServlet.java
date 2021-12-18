@@ -24,4 +24,8 @@ public class IndexServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         jsp.forward(req, resp);
     }
+
+    public void destroy() {
+        utilities.removeAllData();
+    }
 }

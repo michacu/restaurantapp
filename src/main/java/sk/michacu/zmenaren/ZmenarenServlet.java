@@ -69,10 +69,7 @@ public class ZmenarenServlet extends HttpServlet {
             request.setAttribute("error", error.toString());
             jsp.forward(request,response);
         } else {
-            MonetaryAmount resultNumber = Monetary.getDefaultAmountFactory().setCurrency(currencySelectorFrom)
-                    .setNumber(Long.parseLong(fromCurrency)).create();
-            CurrencyConversion conversion = MonetaryConversions.getConversion(currencySelectorTo);
-            MonetaryAmount converted = resultNumber.with(conversion);
+            MonetaryAmount converted = utilities.getMonetaryAmount(fromCurrency, currencySelectorTo, currencySelectorFrom);
             if (converted.toString().isEmpty()) {
                 error.append("Technical problem - Something went wrong with conversion try again later");
             } else {
