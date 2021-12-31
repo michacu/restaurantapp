@@ -1,5 +1,6 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="java.util.Currency" %>
+<%@ page import="sk.michacu.zmenaren.model.MenaObject" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
@@ -48,19 +49,53 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input id="iconValueForm" type="text" name="iconValueForm" class="form-control" aria-label="IconFormValue">
+                    <input id="iconValueForm" type="text" name="iconValueForm" class="form-control" aria-label="IconFormValue" placeholder="Icon">
                 </div>
                 <div class="form-group">
-                    <input id="descriptionValueForm" type="text" name="descriptionValueForm" class="form-control" aria-label="descriptionValueForm">
+                    <input id="descriptionValueForm" type="text" name="descriptionValueForm" class="form-control" aria-label="descriptionValueForm" placeholder="Description">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input class="form-check-input" id="activeValueForm" type="checkbox" name="activeValueForm">
+                            <label class="form-check-label" for="activeValueForm">
+                                Is Currency Active ?
+                            </label>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Text input with checkbox">
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" id="activeValueForm" type="checkbox" name="activeValueForm">
-                    <label class="form-check-label" for="activeValueForm">
-                        Is Currency Active ?
-                    </label>
+                    <input
+                            class="form-check-input"
+                            type="radio"
+                            name="flexRadioDefault"
+                            id="addMenaRadio"
+                            value="add"
+                    />
+                    <label class="form-check-label" for="addMenaRadio"> Add/New </label>
                 </div>
-
-                <button class="btn btn-primary" type="submit">Add Mena</button>
+                <div class="form-check">
+                    <input
+                            class="form-check-input"
+                            type="radio"
+                            name="flexRadioDefault"
+                            id="modifyMenaRadio"
+                            value="modify"
+                    />
+                    <label class="form-check-label" for="modifyMenaRadio"> Modify/Update </label>
+                </div>
+                <div class="form-check">
+                    <input
+                            class="form-check-input"
+                            type="radio"
+                            name="flexRadioDefault"
+                            id="removeMenaRadio"
+                            value="remove"
+                    />
+                    <label class="form-check-label" for="removeMenaRadio"> Delete/Remove </label>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </form>
             <c:if test="${error != null}">
                 <div class="col-12 alert alert-danger" role="alert" style="margin-top: 10px">

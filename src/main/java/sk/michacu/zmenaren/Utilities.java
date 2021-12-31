@@ -45,6 +45,10 @@ public class Utilities {
         pgOperations.addMena(new MenaObject(1L, currnameValueFrom, iconValueForm, descriptionValueForm, activeValueForm, date, date));
     }
 
+    public void removeMenaObject(String currnameValueFrom) {
+        pgOperations.deleteMena(currnameValueFrom);
+    }
+
     public void removeAllData() {
         pgOperations.deleteAll();
     }
@@ -62,6 +66,10 @@ public class Utilities {
                 .setNumber(Long.parseLong(fromCurrency)).create();
         CurrencyConversion conversion = MonetaryConversions.getConversion(currencySelectorTo);
         return resultNumber.with(conversion);
+    }
+
+    public void updateMena(String currName,String icon, String description, boolean activeValue) {
+        pgOperations.updateMenaInfo(currName,icon,activeValue,description);
     }
 
     public List<Currency> getAllCurrencies() {
@@ -82,5 +90,23 @@ public class Utilities {
         }
 
         return toret;
+    }
+
+    public StringBuilder fillErrorList(String menaSelectorForm, String iconValueForm, String descriptionValueForm, StringBuilder error, List<MenaObject> actualList) {
+        if (menaSelectorForm.isEmpty()) {
+            error.append("\n").append("Mena Selector cant be empty please choose value");
+        }
+        actualList.forEach(menaObject -> {
+            if (menaObject.getCurrName().equals(menaSelectorForm)) {
+                error.append("Mena allready exist in zoznam please choose diferent value");
+            }
+        });
+        if (iconValueForm.isEmpty()) {
+            error.append("\n").append("Icon Value cant be empty please enter icon symbol");
+        }
+        if (descriptionValueForm.isEmpty()) {
+            error.append("\n").append("Description cant be empty please fill description");
+        }
+        return error;
     }
 }

@@ -36,6 +36,8 @@ public class ZoznamServlet extends HttpServlet {
     public void doGet(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        currencyList = utilities.getCurrencyList();
+        request.setAttribute("currencyList", currencyList);
         jsp.forward(request,response);
     }
 

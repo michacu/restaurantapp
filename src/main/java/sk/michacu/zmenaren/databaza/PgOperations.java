@@ -11,7 +11,7 @@ import sk.michacu.zmenaren.model.MenaObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
+import java.util.Optional;
 
 public class PgOperations {
     private final SessionFactory sessionFactory;
@@ -39,18 +39,31 @@ public class PgOperations {
         return mena;
     }
 
-    private void updateMenaInfo(Long id, boolean activeValue, String description) {
-        Session session = sessionFactory.openSession();
-        MenaObject menaObject = session.get(MenaObject.class, id);
-        Date date = new Date();
+    public void updateMenaInfo(String currName,String icon, boolean activeValue, String description) {
+        List<MenaObject> menaElements = findAll();
+        if (!menaElements.isEmpty()) {
+            menaElements.forEach(menaObject -> {
+                Optional<MenaObject> tmpObj = menaElements.stream().filter(element -> element.getCurrName().equals(currName)).findFirst();
+                if (tmpObj.isPresent()) {
+                    MenaObject updatedObject = fillUpdatedObj(tmpObj.get(),icon,activeValue,description);
+                    Session session = sessionFactory.openSession();
+                    session.beginTransaction();
+                    session.saveOrUpdate(updatedObject);
+                    session.getTransaction().commit();
+                    session.close();
+                    System.out.println("Record updated succesfully...");
+                }
+            });
+        }
+        System.out.println("Record cant be found...");
+    }
+
+    private MenaObject fillUpdatedObj(MenaObject menaObject, String icon, boolean activeValue, String description) {
+        menaObject.setIcon(icon);
         menaObject.setActive(activeValue);
         menaObject.setDescription(description);
-        menaObject.setUpdated_at(date);
-        session.beginTransaction();
-        session.saveOrUpdate(menaObject);
-        session.getTransaction().commit();
-        session.close();
-        System.out.println("Record updated succesfully...");
+        menaObject.setUpdated_at(new Date());
+        return menaObject;
     }
 
     public void deleteAll() {
@@ -65,14 +78,23 @@ public class PgOperations {
         }
     }
 
-    private void deleteMena(Long id) {
-        Session session = sessionFactory.openSession();
-        MenaObject menaObject = session.get(MenaObject.class, id);
-        session.beginTransaction();
-        session.delete(menaObject);
-        session.getTransaction().commit();
-        session.close();
-        System.out.println("Record deleted succesfully...");
+    public void deleteMena(String currencyName) {
+        List<MenaObject> menaElements = findAll();
+        if (!menaElements.isEmpty()) {
+            menaElements.forEach(menaObject -> {
+                Optional<MenaObject> tmpObj = menaElements.stream().filter(element -> element.getCurrName().equals(currencyName)).findFirst();
+                if (tmpObj.isPresent()) {
+                    Session session = sessionFactory.openSession();
+                    MenaObject removeObject = session.get(MenaObject.class, tmpObj.get().getId());
+                    session.beginTransaction();
+                    session.delete(removeObject);
+                    session.getTransaction().commit();
+                    session.close();
+                    System.out.println("Record deleted succesfully...");
+                }
+            });
+        }
+        System.out.println("Record cant be found...");
     }
 
     public void addMena(MenaObject menaObject) {
@@ -84,24 +106,26 @@ public class PgOperations {
             menaObject.setId(menaElements.get(menaElements.size() - 1).getId() + 1);
         }
         session.save(menaObject);
+        session.getTransaction().commit();
         session.close();
         System.out.println("Filling object data records...");
     }
 
     public void fillInitData(List<MenaObject> list) {
         List<MenaObject> menaElements = findAll();
-        List<MenaObject> filteredList = new ArrayList<>();
-        list.forEach(menaObject -> {
-            if (!menaElements.isEmpty()) {
-                menaElements.forEach(element -> {
-                    if (!Objects.equals(element.getId(), menaObject.getId())) {
-                        filteredList.add(menaObject);
-                    }
-                });
-            } else {
-                filteredList.add(menaObject);
-            }
-        });
+        List<MenaObject> filteredList;
+        if (!menaElements.isEmpty()) {
+            List<MenaObject> tmpList = new ArrayList<>();
+            list.forEach(menaObject -> {
+                Optional<MenaObject> tmpObj = menaElements.stream().filter(element -> element.getId().intValue() == menaObject.getId().intValue()).findFirst();
+                if (tmpObj.isEmpty()) {
+                    tmpList.add(menaObject);
+                }
+            });
+            filteredList = tmpList;
+        } else {
+            filteredList = list;
+        }
         if (!filteredList.isEmpty()) {
             Session session = sessionFactory.openSession();
             session.beginTransaction();

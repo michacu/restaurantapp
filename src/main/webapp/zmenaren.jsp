@@ -42,8 +42,11 @@
                             ServletContext sc = request.getServletContext();
                             ArrayList<MenaObject> std = (ArrayList<MenaObject>) sc.getAttribute("currencyList");
                             for (MenaObject s : std) {
+                                if (s.isActive())
+                                {
                         %>
                         <option value="<%=s.getCurrName()%>"><%=s.getCurrName()%> <%=s.getIcon()%></option>
+                        <%}%>
                         <%}%>
                     </select>
                 </div>

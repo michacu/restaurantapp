@@ -38,11 +38,13 @@
                     ServletContext sc = request.getServletContext();
                     ArrayList<MenaObject> std = (ArrayList<MenaObject>) sc.getAttribute("currencyList");
                     for (MenaObject s : std) {
+                        if (s.isActive()) {
                 %>
                 <tr>
                     <td><%=s.getCurrName()%></td>
                     <td><%=s.getIcon()%></td>
                 </tr>
+                <%}%>
                 <%}%>
             </table>
         </div>

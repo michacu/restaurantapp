@@ -9,10 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 @WebServlet(name = "indexServlet", urlPatterns = {"/","","/home"})
 public class IndexServlet extends HttpServlet {
     private RequestDispatcher jsp;
+    private final Logger logger = Logger.getLogger(IndexServlet.class.getName());
     private final Utilities utilities = new Utilities();
 
     public void init(ServletConfig config) throws ServletException {
@@ -26,6 +28,6 @@ public class IndexServlet extends HttpServlet {
     }
 
     public void destroy() {
-        utilities.removeAllData();
+        logger.info("Number of active currencies is: " + utilities.getAllCurrencies().size());
     }
 }
