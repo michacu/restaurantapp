@@ -48,7 +48,7 @@ public class PridanieMenyServlet extends HttpServlet {
         String menaRadio = request.getParameter("flexRadioDefault");
         StringBuilder error = new StringBuilder();
         List<MenaObject> actualList = utilities.getCurrencyList();
-        error = utilities.fillErrorList(menaSelectorForm, iconValueForm, descriptionValueForm, error, actualList);
+        error = utilities.fillErrorList(menaSelectorForm, iconValueForm, descriptionValueForm, error, actualList, menaRadio);
         if (error.length() > 0) {
             request.setAttribute("error", error.toString());
             jsp.forward(request,response);

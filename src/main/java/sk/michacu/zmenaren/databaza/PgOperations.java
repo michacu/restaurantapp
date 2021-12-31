@@ -41,21 +41,23 @@ public class PgOperations {
 
     public void updateMenaInfo(String currName,String icon, boolean activeValue, String description) {
         List<MenaObject> menaElements = findAll();
+        MenaObject updatedObject = fillUpdatedObj(new MenaObject(),icon,activeValue,description);
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
         if (!menaElements.isEmpty()) {
             menaElements.forEach(menaObject -> {
                 Optional<MenaObject> tmpObj = menaElements.stream().filter(element -> element.getCurrName().equals(currName)).findFirst();
                 if (tmpObj.isPresent()) {
-                    MenaObject updatedObject = fillUpdatedObj(tmpObj.get(),icon,activeValue,description);
-                    Session session = sessionFactory.openSession();
-                    session.beginTransaction();
+                    session.saveOrUpdate(fillUpdatedObj(tmpObj.get(),icon,activeValue,description));
+                } else {
+                    menaObject.setId(menaElements.get(menaElements.size() - 1).getId() + 1);
                     session.saveOrUpdate(updatedObject);
-                    session.getTransaction().commit();
-                    session.close();
-                    System.out.println("Record updated succesfully...");
                 }
             });
         }
-        System.out.println("Record cant be found...");
+        session.getTransaction().commit();
+        session.close();
+        System.out.println("Record updated succesfully...");
     }
 
     private MenaObject fillUpdatedObj(MenaObject menaObject, String icon, boolean activeValue, String description) {

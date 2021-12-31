@@ -92,13 +92,20 @@ public class Utilities {
         return toret;
     }
 
-    public StringBuilder fillErrorList(String menaSelectorForm, String iconValueForm, String descriptionValueForm, StringBuilder error, List<MenaObject> actualList) {
+    public StringBuilder fillErrorList(String menaSelectorForm, String iconValueForm, String descriptionValueForm, StringBuilder error, List<MenaObject> actualList, String menaRadio) {
         if (menaSelectorForm.isEmpty()) {
             error.append("\n").append("Mena Selector cant be empty please choose value");
         }
         actualList.forEach(menaObject -> {
+            List<MenaObject> filteredList = new ArrayList<>();
             if (menaObject.getCurrName().equals(menaSelectorForm)) {
+                filteredList.add(menaObject);
+            }
+            if (menaRadio.equals("add") && !filteredList.isEmpty()) {
                 error.append("Mena allready exist in zoznam please choose diferent value");
+            }
+            if (menaRadio.equals("remove") && filteredList.isEmpty()) {
+                error.append("Mena does not exist cant delete");
             }
         });
         if (iconValueForm.isEmpty()) {
