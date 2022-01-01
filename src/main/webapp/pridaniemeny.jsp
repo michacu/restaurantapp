@@ -90,17 +90,20 @@
                         <%}%>
                     </select>
                 </div>
+                <%
+                    MenaObject addObj = (MenaObject) request.getAttribute("addMenaObject");
+                %>
                 <div class="form-group">
                     <input id="formTypeValue" type="hidden" name="formTypeValue" class="form-control" aria-label="formTypeValue" value="add">
-                    <input id="iconValueForm" type="text" name="iconValueForm" class="form-control" aria-label="IconFormValue" placeholder="Icon">
+                    <input id="iconValueForm" type="text" name="iconValueForm" class="form-control" aria-label="IconFormValue" placeholder="Icon" value="<%=addObj != null && addObj.getIcon() != null ? addObj.getIcon() : ""%>">
                 </div>
                 <div class="form-group">
-                    <input id="descriptionValueForm" type="text" name="descriptionValueForm" class="form-control" aria-label="descriptionValueForm" placeholder="Description">
+                    <input id="descriptionValueForm" type="text" name="descriptionValueForm" class="form-control" aria-label="descriptionValueForm" placeholder="Description" value="<%=addObj != null && addObj.getDescription() != null ? addObj.getDescription() : ""%>">
                 </div>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <div class="input-group-text">
-                            <input class="form-check-input" id="activeValueForm" type="checkbox" name="activeValueForm">
+                            <input class="form-check-input" id="activeValueForm" type="checkbox" name="activeValueForm" checked="<%=addObj != null ? addObj.isActive() : ""%>">
                             <label class="form-check-label" for="activeValueForm">
                                 Is Currency Active ?
                             </label>

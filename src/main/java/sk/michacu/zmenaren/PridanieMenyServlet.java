@@ -65,23 +65,22 @@ public class PridanieMenyServlet extends HttpServlet {
         error = utilities.fillErrorList(menaSelectorForm, iconValueForm, descriptionValueForm, error, actualList, operationType);
         if (error.length() > 0) {
             if (operationType.equals("add")) {
-                request.setAttribute("modifyingMenaObject", utilities.fillModifiedValues(null,menaSelectorForm, iconValueForm, descriptionValueForm,activeValueForm != null && activeValueForm.equals("on")));
+                request.setAttribute("addMenaObject", utilities.fillModifiedValues(null,menaSelectorForm, iconValueForm, descriptionValueForm,activeValueForm != null && activeValueForm.equals("on")));
             }
             if (operationType.equals("modify")) {
                 request.setAttribute("modifyingMenaObject", utilities.fillModifiedValues(Long.valueOf(idValue),menaSelectorForm, iconValueForm, descriptionValueForm,activeValueForm != null && activeValueForm.equals("on")));
             }
             request.setAttribute("error", error.toString());
-            jsp.forward(request,response);
-        }
-
-        if (operationType.equals("add")) {
-            utilities.addMenaObject(menaSelectorForm,iconValueForm,descriptionValueForm, activeValueForm != null && activeValueForm.equals("on"));
-            request.setAttribute("menaResponse", menaSelectorForm + " : mena bola uspesne pridana");
-        }
-        if (operationType.equals("modify")) {
-            utilities.updateMena(menaSelectorForm,iconValueForm,descriptionValueForm, activeValueForm != null && activeValueForm.equals("on"));
-            request.setAttribute("modifyingMenaObject", idValue != null && !idValue.isEmpty() ? utilities.getMena(Long.valueOf(idValue)) : utilities.getIdMena(menaSelectorForm));
-            request.setAttribute("menaResponse", menaSelectorForm + " : mena bola uspesne zmenena");
+        } else {
+            if (operationType.equals("add")) {
+                utilities.addMenaObject(menaSelectorForm,iconValueForm,descriptionValueForm, activeValueForm != null && activeValueForm.equals("on"));
+                request.setAttribute("menaResponse", menaSelectorForm + " : mena bola uspesne pridana");
+            }
+            if (operationType.equals("modify")) {
+                utilities.updateMena(menaSelectorForm,iconValueForm,descriptionValueForm, activeValueForm != null && activeValueForm.equals("on"));
+                request.setAttribute("modifyingMenaObject", idValue != null && !idValue.isEmpty() ? utilities.getMena(Long.valueOf(idValue)) : utilities.getIdMena(menaSelectorForm));
+                request.setAttribute("menaResponse", menaSelectorForm + " : mena bola uspesne zmenena");
+            }
         }
         jsp.forward(request,response);
     }
