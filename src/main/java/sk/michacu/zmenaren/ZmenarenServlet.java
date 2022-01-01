@@ -2,10 +2,7 @@ package sk.michacu.zmenaren;
 
 import sk.michacu.zmenaren.model.MenaObject;
 
-import javax.money.Monetary;
 import javax.money.MonetaryAmount;
-import javax.money.convert.CurrencyConversion;
-import javax.money.convert.MonetaryConversions;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;

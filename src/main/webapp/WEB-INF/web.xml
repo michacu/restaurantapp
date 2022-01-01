@@ -32,6 +32,10 @@
         <url-pattern>/zoznam</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
+        <servlet-name>zoznamServlet</servlet-name>
+        <url-pattern>/zoznam*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
         <servlet-name>zmenarenServlet</servlet-name>
         <url-pattern>/zmenaren</url-pattern>
     </servlet-mapping>
@@ -45,6 +49,6 @@
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>pridanieMenyServlet</servlet-name>
-        <url-pattern>/pridaniemeny/*</url-pattern>
+        <url-pattern>/pridaniemeny*</url-pattern>
     </servlet-mapping>
 </web-app>

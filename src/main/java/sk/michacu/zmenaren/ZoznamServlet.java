@@ -36,6 +36,13 @@ public class ZoznamServlet extends HttpServlet {
     public void doGet(
             HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String menaOperation = request.getParameter("menaoperation");
+        String objectId = request.getParameter("id");
+        if (menaOperation != null) {
+            if (menaOperation.equals("remove")) {
+                utilities.removeMenaObject(Long.valueOf(objectId));
+            }
+        }
         currencyList = utilities.getCurrencyList();
         request.setAttribute("currencyList", currencyList);
         jsp.forward(request,response);

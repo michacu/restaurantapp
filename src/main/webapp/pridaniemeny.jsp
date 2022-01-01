@@ -20,9 +20,9 @@
         <div class="collapse navbar-collapse justify-content-center" id="navbarNavAltMarkup">
             <div class="navbar-nav">
                 <a class="nav-link" href="${pageContext.request.contextPath}/">Home</a>
-                <a class="nav-link active" href="${pageContext.request.contextPath}/zmenaren">Zmenaren</a>
+                <a class="nav-link" href="${pageContext.request.contextPath}/zmenaren">Zmenaren</a>
                 <a class="nav-link" href="${pageContext.request.contextPath}/zoznam">Zoznam</a>
-                <a class="nav-link" href="${pageContext.request.contextPath}/pridaniemeny">Pridanie Meny</a>
+                <a class="nav-link active" href="${pageContext.request.contextPath}/pridaniemeny">Pridanie Meny</a>
             </div>
         </div>
     </div>
@@ -34,6 +34,48 @@
         <div class="col-sm-2 sidenav">
         </div>
         <div class="col-sm-8 text-left">
+            <%
+                MenaObject modObj = (MenaObject) request.getAttribute("modifyingMenaObject");
+                if (modObj != null){
+            %>
+            <h2>Uprava Meny</h2>
+            <form class="row g-3" method="post">
+                <div class="input-group col-md-6">
+                    <input id="menaUpdateForm" type="hidden" name="menaUpdateForm" class="form-control" aria-label="menaUpdateForm" value="<%=modObj.getCurrName()%>">
+                    <input id="menaIdModValue" type="hidden" name="menaIdModValue" class="form-control" aria-label="menaIdModValue" value="<%=modObj.getId()%>">
+                    <input id="formTypeVal" type="hidden" name="formTypeVal" class="form-control" aria-label="formTypeVal" value="modify">
+                </div>
+                <div class="form-group">
+                    <input id="iconModifyForm" type="text" name="iconModifyForm" class="form-control" aria-label="iconModifyForm" value="<%=modObj.getIcon()%>">
+                </div>
+                <div class="form-group">
+                    <input id="descriptionModForm" type="text" name="descriptionModForm" class="form-control" aria-label="descriptionModForm" value="<%=modObj.getDescription()%>">
+                </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input class="form-check-input" id="activeModifyForm" type="checkbox" name="activeModifyForm" checked="<%=modObj.isActive()%>">
+                            <label class="form-check-label" for="activeModifyForm">
+                                Is Currency Active ?
+                            </label>
+                        </div>
+                    </div>
+                    <input type="text" class="form-control" aria-label="Text input with checkbox">
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+            <c:if test="${error != null}">
+                <div class="col-12 alert alert-danger" role="alert" style="margin-top: 10px">
+                        ${error}
+                </div>
+            </c:if>
+            <c:if test="${menaResponse != null}">
+                <div class="alert alert-success" role="alert" style="margin-top: 10px">
+                        ${menaResponse}
+                </div>
+            </c:if>
+        </div>
+            <%} else {%>
             <h2>Pridanie Meny</h2>
             <form class="row g-3" method="post">
                 <div class="input-group col-md-6">
@@ -49,6 +91,7 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <input id="formTypeValue" type="hidden" name="formTypeValue" class="form-control" aria-label="formTypeValue" value="add">
                     <input id="iconValueForm" type="text" name="iconValueForm" class="form-control" aria-label="IconFormValue" placeholder="Icon">
                 </div>
                 <div class="form-group">
@@ -65,36 +108,6 @@
                     </div>
                     <input type="text" class="form-control" aria-label="Text input with checkbox">
                 </div>
-                <div class="form-check">
-                    <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="addMenaRadio"
-                            value="add"
-                    />
-                    <label class="form-check-label" for="addMenaRadio"> Add/New </label>
-                </div>
-                <div class="form-check">
-                    <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="modifyMenaRadio"
-                            value="modify"
-                    />
-                    <label class="form-check-label" for="modifyMenaRadio"> Modify/Update </label>
-                </div>
-                <div class="form-check">
-                    <input
-                            class="form-check-input"
-                            type="radio"
-                            name="flexRadioDefault"
-                            id="removeMenaRadio"
-                            value="remove"
-                    />
-                    <label class="form-check-label" for="removeMenaRadio"> Delete/Remove </label>
-                </div>
                 <button class="btn btn-primary" type="submit">Submit</button>
             </form>
             <c:if test="${error != null}">
@@ -102,12 +115,13 @@
                         ${error}
                 </div>
             </c:if>
-            <c:if test="${pridanieMenaResponse != null}">
+            <c:if test="${menaResponse != null}">
                 <div class="alert alert-success" role="alert" style="margin-top: 10px">
-                        ${pridanieMenaResponse}
+                        ${menaResponse}
                 </div>
             </c:if>
         </div>
+        <%}%>
         <div class="col-sm-2 sidenav">
         </div>
     </div>

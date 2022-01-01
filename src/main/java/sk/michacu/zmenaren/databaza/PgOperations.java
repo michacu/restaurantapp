@@ -31,6 +31,18 @@ public class PgOperations {
         return menaObjectList;
     }
 
+    public MenaObject findByCurrName(String currname) {
+        List<MenaObject> menaElements = findAll();
+        if (!menaElements.isEmpty()) {
+            Optional<MenaObject> tmpObj = menaElements.stream().filter(element -> element.getCurrName().equals(currname)).findFirst();
+            if (tmpObj.isPresent()) {
+                return tmpObj.get();
+            }
+        }
+
+        return null;
+    }
+
     public MenaObject findById(Long id) {
         Session session = sessionFactory.openSession();
         MenaObject mena = session.get(MenaObject.class, id);
@@ -68,35 +80,18 @@ public class PgOperations {
         return menaObject;
     }
 
-    public void deleteAll() {
-        List<MenaObject> menaElements = findAll();
-        if (!menaElements.isEmpty()) {
+    public void deleteMena(Long id) {
+        MenaObject objToDelete = findById(id);
+        if (objToDelete != null) {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
-            menaElements.forEach(session::delete);
+            session.delete(objToDelete);
             session.getTransaction().commit();
             session.close();
             System.out.println("Record deleted succesfully...");
+        } else {
+            System.out.println("Record cant be found...");
         }
-    }
-
-    public void deleteMena(String currencyName) {
-        List<MenaObject> menaElements = findAll();
-        if (!menaElements.isEmpty()) {
-            menaElements.forEach(menaObject -> {
-                Optional<MenaObject> tmpObj = menaElements.stream().filter(element -> element.getCurrName().equals(currencyName)).findFirst();
-                if (tmpObj.isPresent()) {
-                    Session session = sessionFactory.openSession();
-                    MenaObject removeObject = session.get(MenaObject.class, tmpObj.get().getId());
-                    session.beginTransaction();
-                    session.delete(removeObject);
-                    session.getTransaction().commit();
-                    session.close();
-                    System.out.println("Record deleted succesfully...");
-                }
-            });
-        }
-        System.out.println("Record cant be found...");
     }
 
     public void addMena(MenaObject menaObject) {

@@ -7,6 +7,8 @@ import javax.money.Monetary;
 import javax.money.MonetaryAmount;
 import javax.money.convert.CurrencyConversion;
 import javax.money.convert.MonetaryConversions;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -21,6 +23,10 @@ public class Utilities {
 
     public MenaObject getMena(Long id) {
         return pgOperations.findById(id);
+    }
+
+    public MenaObject getIdMena(String currName) {
+        return pgOperations.findByCurrName(currName);
     }
 
     public List<MenaObject> getCurrencyList() {
@@ -45,14 +51,9 @@ public class Utilities {
         pgOperations.addMena(new MenaObject(1L, currnameValueFrom, iconValueForm, descriptionValueForm, activeValueForm, date, date));
     }
 
-    public void removeMenaObject(String currnameValueFrom) {
-        pgOperations.deleteMena(currnameValueFrom);
+    public void removeMenaObject(Long id) {
+        pgOperations.deleteMena(id);
     }
-
-    public void removeAllData() {
-        pgOperations.deleteAll();
-    }
-
 
     public boolean isNotNumeric(String strNum) {
         if (strNum == null) {
@@ -93,7 +94,7 @@ public class Utilities {
     }
 
     public StringBuilder fillErrorList(String menaSelectorForm, String iconValueForm, String descriptionValueForm, StringBuilder error, List<MenaObject> actualList, String menaRadio) {
-        if (menaSelectorForm.isEmpty()) {
+        if (menaSelectorForm == null || menaSelectorForm.isEmpty()) {
             error.append("\n").append("Mena Selector cant be empty please choose value");
         }
         actualList.forEach(menaObject -> {
@@ -104,16 +105,29 @@ public class Utilities {
             if (menaRadio.equals("add") && !filteredList.isEmpty()) {
                 error.append("Mena allready exist in zoznam please choose diferent value");
             }
-            if (menaRadio.equals("remove") && filteredList.isEmpty()) {
-                error.append("Mena does not exist cant delete");
-            }
         });
-        if (iconValueForm.isEmpty()) {
+        if (iconValueForm == null || iconValueForm.isEmpty()) {
             error.append("\n").append("Icon Value cant be empty please enter icon symbol");
         }
-        if (descriptionValueForm.isEmpty()) {
+        if (descriptionValueForm == null || descriptionValueForm.isEmpty()) {
             error.append("\n").append("Description cant be empty please fill description");
         }
         return error;
+    }
+
+    public boolean parameterIsNotNull(HttpServletRequest request, String paramName) {
+        return request.getParameter(paramName) != null && !request.getParameter(paramName).isEmpty();
+    }
+
+    public MenaObject fillModifiedValues(Long id, String menaSelectorForm, String iconValueForm, String descriptionValueForm, boolean on) {
+        MenaObject filledObject = new MenaObject();
+        filledObject.setId(id);
+        filledObject.setCurrName(menaSelectorForm);
+        filledObject.setIcon(iconValueForm);
+        filledObject.setDescription(descriptionValueForm);
+        if (on) {
+            filledObject.setActive(on);
+        }
+        return filledObject;
     }
 }
