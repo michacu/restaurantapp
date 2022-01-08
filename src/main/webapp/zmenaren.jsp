@@ -13,6 +13,11 @@
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 </head>
 <body>
+<%
+    response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+    response.setDateHeader ("Expires", 0);
+%>
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">

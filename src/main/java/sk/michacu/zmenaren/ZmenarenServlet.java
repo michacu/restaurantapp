@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 @WebServlet(name = "zmenarenServlet")
@@ -73,6 +74,7 @@ public class ZmenarenServlet extends HttpServlet {
                 request.setAttribute("initValueFrom", 0);
                 request.setAttribute("currencyResponse", converted.toString().substring(0, converted.toString().indexOf(".") + 4));
             }
+            request.getServletContext().setAttribute("currencyList", currencyList);
             jsp.forward(request,response);
         }
     }

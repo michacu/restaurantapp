@@ -62,7 +62,7 @@ public class PgOperations {
                 if (tmpObj.isPresent()) {
                     session.saveOrUpdate(fillUpdatedObj(tmpObj.get(),icon,activeValue,description));
                 } else {
-                    menaObject.setId(menaElements.get(menaElements.size() - 1).getId() + 1);
+                    menaObject.setId((long) (menaElements.size() + 1));
                     session.saveOrUpdate(updatedObject);
                 }
             });
@@ -100,7 +100,7 @@ public class PgOperations {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         if (!menaElements.isEmpty()) {
-            menaObject.setId(menaElements.get(menaElements.size() - 1).getId() + 1);
+            menaObject.setId((long) (menaElements.size() + 1));
         }
         session.save(menaObject);
         session.getTransaction().commit();

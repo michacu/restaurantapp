@@ -44,7 +44,7 @@ public class ZoznamServlet extends HttpServlet {
             }
         }
         currencyList = utilities.getCurrencyList();
-        request.setAttribute("currencyList", currencyList);
+        request.getServletContext().setAttribute("currencyList", utilities.getCurrencyList());
         jsp.forward(request,response);
     }
 

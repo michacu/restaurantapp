@@ -8,7 +8,6 @@ import javax.money.MonetaryAmount;
 import javax.money.convert.CurrencyConversion;
 import javax.money.convert.MonetaryConversions;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -84,9 +83,8 @@ public class Utilities {
                 if ( currency != null ) {
                     toret.add( currency );
                 }
-            } catch(Exception exc)
-            {
-                // Locale not found
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
